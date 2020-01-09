@@ -90,7 +90,7 @@ class Microbit:
         return self.__state['button_b']
 
     def __show(self):
-        utils.show(self.__state, self.__debug_mode)
+        utils.show(self.__state, self.__debug_mode, True)
     
     def show(self, image):
         self.__state = {
