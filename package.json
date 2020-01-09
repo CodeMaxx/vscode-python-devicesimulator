@@ -35,10 +35,7 @@
     "onCommand:deviceSimulatorExpress.runDevice",
     "onCommand:deviceSimulatorExpress.runSimulatorEditorButton",
     "onCommand:deviceSimulatorExpress.selectSerialPort",
-<<<<<<< HEAD
-=======
     "onCommand:deviceSimulatorExpress.selectDevice",
->>>>>>> personal/deji/microbitCompile
     "onDebug"
   ],
   "main": "./out/extension.js",
