@@ -11,14 +11,18 @@ interface MicrobitSimulationState {
     boxShadow: string[][];
     // wrapperRef : React.RefObject<unknown>;
   }
-class MicrobitSimulation extends Component<any, MicrobitSimulationState, any>{
+
+  interface IProps{
+      ledState:boolean[][]
+  }
+class MicrobitSimulation extends Component<IProps, MicrobitSimulationState, any>{
 
     readonly bgColor_OFF: string = '#cfcfcf'
     readonly bgColor_ON: string = '#ff7575'
     readonly boxShadow_OFF: string = '0 0 0px #888888'
     readonly boxShadow_ON: string = '0 0 10px #888888'
     
-    constructor(props: any) {
+    constructor(props: IProps) {
         super(props);
 
         // let bgColor_arr : string[5][5]

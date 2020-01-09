@@ -6,7 +6,7 @@ import { BUTTON_NEUTRAL, BUTTON_PRESSED } from "./cpx/Cpx_svg_style";
 import Cpx, { updateSwitch, updatePinTouch } from "./cpx/Cpx";
 import Button from "./Button";
 import Dropdown from "./Dropdown";
-import Dot from "./Dot";
+// import Dot from "./Dot";
 import { CONSTANTS } from "../constants";
 import PlayLogo from "../svgs/play_svg";
 import StopLogo from "../svgs/stop_svg";
@@ -34,7 +34,8 @@ interface IState {
   selected_file: string;
   cpx: ICpxState;
   play_button: boolean;
-  currentToolId: number
+  currentToolId: number;
+  microbitState:boolean[][]
 }
 interface IMyProps {
   children?: any;
@@ -67,7 +68,7 @@ interface vscode {
 }
 
 declare const vscode: vscode;
-const deviceOptions = ['option1', 'option2']
+// const deviceOptions = ['option1', 'option2']
 const sendMessage = (type: string, state: any) => {
   vscode.postMessage({ command: type, text: state });
 };
@@ -82,6 +83,12 @@ class Simulator extends React.Component<any, IState> {
       running_file: "",
       selected_file: "",
       currentToolId: 0,
+      microbitState:[[false,false, false, false, false],
+      [false,false,false,false,false],
+    [false,false,false,false,false],
+    [false,false,false,false,false],
+    [false,false,false,false,false]
+    ]
     };
 
 
@@ -97,8 +104,13 @@ class Simulator extends React.Component<any, IState> {
   }
 
   handleMessage = (event: any): void => {
+
     const message = event.data; // The JSON data our extension sent
     switch (message.command) {
+      case "set-state-mb":
+        this.setState({...this.state,
+           microbitState:message.state.activePythonEditors })
+        break;
       case "reset-state":
         console.log("Clearing the state");
         this.setState({
@@ -135,7 +147,9 @@ class Simulator extends React.Component<any, IState> {
         console.log("Invalid message received from the extension.");
         this.setState({ ...this.state, cpx: DEFAULT_CPX_STATE });
         break;
+        
     }
+ 
   };
 
   componentDidMount() {
@@ -190,7 +204,7 @@ class Simulator extends React.Component<any, IState> {
               onMouseLeave={this.onMouseLeave}
             />
             :
-            <MicrobitSimulation />
+            <MicrobitSimulation ledState={this.state.microbitState} testStates={this.clickMicrobitButton()}/>
           }
 
         </div>
@@ -215,6 +229,14 @@ class Simulator extends React.Component<any, IState> {
         </div>
       </div>
     );
+  }
+  clickMicrobitButton(){
+    this.setState({...this.state,microbitState:[[true,true, true, true, true],
+      [false,false,false,false,false],
+    [false,false,false,false,false],
+    [false,false,false,false,false],
+    [false,false,false,false,false]
+    ]})
   }
 
   protected togglePlayClick() {
