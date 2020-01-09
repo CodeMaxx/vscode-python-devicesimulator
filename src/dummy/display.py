@@ -24,8 +24,6 @@ class Image:
         [False,False,False,False,False]
     ]
 
-    // smilies
-
     HAPPY = [
         [False,False,False,False,False],
         [False,True,False,True,False],
@@ -100,4 +98,6 @@ class Microbit:
         }
         self.__show(self)
 
-display = Microbit()
+dev = Microbit()
+def show(image):
+    dev.show(image)
