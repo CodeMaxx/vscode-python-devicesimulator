@@ -23,6 +23,7 @@ ERROR_TRACEBACK = "\n\tTraceback of code execution : \n"
 ERROR_NO_FILE = "Error : No file was passed to the process to execute.\n"
 
 LIBRARY_NAME = "adafruit_circuitplayground"
+LIBRARY_NAME_2 = "microbit"
 LINUX_OS = "linux"
 
 MAC_OS = "darwin"

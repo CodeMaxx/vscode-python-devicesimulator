@@ -72,11 +72,19 @@ export async function activate(context: vscode.ExtensionContext) {
 
   await utils.checkPythonDependencies(context, pythonExecutableName)
 
+  if (outChannel === undefined) {
+    outChannel = vscode.window.createOutputChannel(CONSTANTS.NAME);
+    utils.logToOutputChannel(outChannel, CONSTANTS.INFO.WELCOME_OUTPUT_TAB);
+  }
+
   // Generate cpx.json
   try {
     utils.generateCPXConfig();
     configFileCreated = true;
   } catch (err) {
+    console.error('CPX failure error', err.message);
+    utils.logToOutputChannel(outChannel, 'CPX failure error' + err.message);
+    utils.logToOutputChannel(outChannel, "Failed to create the CPX config file.");
     console.info("Failed to create the CPX config file.");
     configFileCreated = false;
   }
@@ -84,11 +92,6 @@ export async function activate(context: vscode.ExtensionContext) {
 
   if (pythonExecutableName === "") {
     return;
-  }
-
-  if (outChannel === undefined) {
-    outChannel = vscode.window.createOutputChannel(CONSTANTS.NAME);
-    utils.logToOutputChannel(outChannel, CONSTANTS.INFO.WELCOME_OUTPUT_TAB);
   }
 
   vscode.workspace.onDidSaveTextDocument(
@@ -435,13 +438,26 @@ export async function activate(context: vscode.ExtensionContext) {
                 // Check the JSON is a state
                 switch (messageToWebview.type) {
                   case "state":
-                    console.log(
-                      `Process state output = ${messageToWebview.data}`
-                    );
-                    currentPanel.webview.postMessage({
-                      command: "set-state",
-                      state: JSON.parse(messageToWebview.data)
-                    });
+                    if (messageToWebview.device == "cpx")
+                    {
+                      console.log(
+                        `Process state output CPX = ${messageToWebview.data}`
+                      );
+                      currentPanel.webview.postMessage({
+                        command: "set-state",
+                        state: JSON.parse(messageToWebview.data)
+                      });
+                    } else
+                    {
+                      console.log(
+                        `Process state output MB = ${messageToWebview.data}`
+                      );
+                      currentPanel.webview.postMessage({
+                        command: "set-state-mb",
+                        state: JSON.parse(messageToWebview.data)
+                      });
+                    }
+                    
                     break;
 
                   case "print":
@@ -509,6 +525,12 @@ export async function activate(context: vscode.ExtensionContext) {
     }
   );
 
+  let serialMonitor: SerialMonitor | undefined;
+  if (configFileCreated) {
+    serialMonitor = SerialMonitor.getInstance();
+    context.subscriptions.push(serialMonitor);
+  }
+
   const deployCodeToDevice = async () => {
     console.info("Sending code to device");
 
@@ -547,12 +569,21 @@ export async function activate(context: vscode.ExtensionContext) {
         outChannel,
         CONSTANTS.INFO.FILE_SELECTED(currentFileAbsPath)
       );
+      
+      if(serialMonitor.currentDevice == undefined)
+      {
+        await serialMonitor.selectDevice();
+      }
+  
+      utils.logToOutputChannel(outChannel, "[INFO] Device is : " + serialMonitor.currentDevice + "\n", true);
+      utils.logToOutputChannel(outChannel, "[INFO] Compiling code to hex \n", true);
+      utils.logToOutputChannel(outChannel, "[INFO] Uploading code to device \n", true);
 
       const deviceProcess = cp.spawn(pythonExecutableName, [
-        utils.getPathToScript(context, "out", "microbit.py"),
-        currentFileAbsPath
+        utils.getPathToScript(context, "out", "device.py"),
+        currentFileAbsPath,
+        serialMonitor.currentDevice
       ]);
-
       let dataFromTheProcess = "";
 
       // Data received from Python process
@@ -562,6 +593,7 @@ export async function activate(context: vscode.ExtensionContext) {
         let messageToWebview;
         try {
           messageToWebview = JSON.parse(dataFromTheProcess);
+          console.log(`messageToWebView = ${messageToWebview}`);
           // Check the JSON is a state
           switch (messageToWebview.type) {
             case "complete":
@@ -572,6 +604,7 @@ export async function activate(context: vscode.ExtensionContext) {
                 outChannel,
                 CONSTANTS.INFO.DEPLOY_SUCCESS
               );
+              console.log("Deploy success\n\n");
               break;
 
             case "no-device":
@@ -603,6 +636,7 @@ export async function activate(context: vscode.ExtensionContext) {
               break;
           }
         } catch (err) {
+          console.error(err);
           console.log(
             `Non-JSON output from the process :  ${dataFromTheProcess}`
           );
@@ -639,11 +673,22 @@ export async function activate(context: vscode.ExtensionContext) {
     }
   );
 
-  let serialMonitor: SerialMonitor | undefined;
-  if (configFileCreated) {
-    serialMonitor = SerialMonitor.getInstance();
-    context.subscriptions.push(serialMonitor);
-  }
+  
+
+  
+  const selectDevice: vscode.Disposable = vscode.commands.registerCommand(
+    "deviceSimulatorExpress.selectDevice",
+    () => {
+      if (serialMonitor) {
+        telemetryAI.runWithLatencyMeasure(() => {
+          serialMonitor.selectDevice();
+        }, TelemetryEventName.COMMAND_SERIAL_MONITOR_SELECT_DEVICE);
+      } else {
+        vscode.window.showErrorMessage(CONSTANTS.ERROR.NO_FOLDER_OPENED);
+        console.info("Device is not defined.");
+      }
+    }
+  );
 
   const selectSerialPort: vscode.Disposable = vscode.commands.registerCommand(
     "deviceSimulatorExpress.selectSerialPort",
@@ -788,6 +833,7 @@ export async function activate(context: vscode.ExtensionContext) {
     runSimulatorEditorButton,
     runDevice,
     selectSerialPort,
+    selectDevice,
     vscode.debug.registerDebugConfigurationProvider(
       CONSTANTS.DEBUG_CONFIGURATION_TYPE,
       simulatorDebugConfiguration

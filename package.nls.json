@@ -8,6 +8,7 @@
   "deviceSimulatorExpressExtension.commands.newFile": "New File",
   "deviceSimulatorExpressExtension.commands.runDevice": "Deploy to Device",
   "deviceSimulatorExpressExtension.commands.selectSerialPort": "Select Serial Port",
+  "deviceSimulatorExpressExtension.commands.selectDevice": "Select Device",
   "deviceSimulatorExpressExtension.configuration.title": "Device Simulator Express configuration",
   "deviceSimulatorExpressExtension.configuration.properties.open": "Whether to show 'Open Simulator' icon in editor title menu.",
   "deviceSimulatorExpressExtension.configuration.properties.device": "Whether to show 'Run Device' icon in editor title menu.",
