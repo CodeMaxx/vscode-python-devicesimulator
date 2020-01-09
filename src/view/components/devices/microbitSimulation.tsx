@@ -79,7 +79,7 @@ class MicrobitSimulation extends Component<IProps, any, any>{
                     on={this.props.ledState[0][4]}
                 />
             </div>
-            <button onClick={this.props.testStates} 
+            <button onClick={()=>{this.props.testStates()}} 
              /> 
             MicrobitSimulationComponent
         </div>)
