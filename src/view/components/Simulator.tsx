@@ -10,7 +10,9 @@ import { CONSTANTS } from "../constants";
 import PlayLogo from "../svgs/play_svg";
 import StopLogo from "../svgs/stop_svg";
 import RefreshLogo from "../svgs/refresh_svg";
+import { AppBar, Tabs, Tab } from '@material-ui/core'
 import MicrobitSimulation from "./devices/microbitSimulation"
+
 
 import "../styles/Simulator.css";
 
@@ -142,15 +144,24 @@ class Simulator extends React.Component<any, IState> {
     // Make sure to remove the DOM listener when the component is unmounted.
     window.removeEventListener("message", this.handleMessage);
   }
+ 
 
   render() {
+    const handleChange=(event:Object,newValue:number)=>{
+      this.setState({...this.state,currentToolId:newValue})
+      
+    }
     const image = this.state.play_button ? StopLogo : PlayLogo;
     return (
       <div className="simulator">
         <div className="file-selector">
-        <button
-            onClick={() => { if (this.state.currentToolId) { this.setState({ currentToolId: 0 }) } else { this.setState({ currentToolId: 1 }) } }}
-          >Change Device</button>
+          <AppBar>
+            <Tabs value={this.state.currentToolId} onChange={handleChange}>
+              <Tab label="CPX"/>
+              <Tab label="Microbit"/>
+            </Tabs>
+          </AppBar>
+
           <Dropdown
             label={"file-dropdown"}
             styleLabel={"dropdown"}

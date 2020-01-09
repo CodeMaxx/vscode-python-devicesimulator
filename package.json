@@ -14,29 +14,29 @@
   ],
   "preview": true,
   "license": "MIT",
-	"homepage": "https://github.com/microsoft/vscode-python-devicesimulator",
-	"repository": {
-			"type": "git",
-			"url": "https://github.com/microsoft/vscode-python-devicesimulator"
-	},
-	"bugs": {
-			"url": "https://github.com/microsoft/vscode-python-devicesimulator/issues"
-	},
-	"keywords": [
-			"python",
-			"CircuitPython",
-			"Adafruit"
-	],
-	"activationEvents": [
-			"onCommand:deviceSimulatorExpress.openSerialMonitor",
-			"onCommand:deviceSimulatorExpress.openSimulator",
-			"onCommand:deviceSimulatorExpress.runSimulator",
-			"onCommand:deviceSimulatorExpress.newFile",
-			"onCommand:deviceSimulatorExpress.runDevice",
-			"onCommand:deviceSimulatorExpress.runSimulatorEditorButton",
-			"onCommand:deviceSimulatorExpress.selectSerialPort",
-			"onDebug"
-	],
+  "homepage": "https://github.com/microsoft/vscode-python-devicesimulator",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/microsoft/vscode-python-devicesimulator"
+  },
+  "bugs": {
+    "url": "https://github.com/microsoft/vscode-python-devicesimulator/issues"
+  },
+  "keywords": [
+    "python",
+    "CircuitPython",
+    "Adafruit"
+  ],
+  "activationEvents": [
+    "onCommand:deviceSimulatorExpress.openSerialMonitor",
+    "onCommand:deviceSimulatorExpress.openSimulator",
+    "onCommand:deviceSimulatorExpress.runSimulator",
+    "onCommand:deviceSimulatorExpress.newFile",
+    "onCommand:deviceSimulatorExpress.runDevice",
+    "onCommand:deviceSimulatorExpress.runSimulatorEditorButton",
+    "onCommand:deviceSimulatorExpress.selectSerialPort",
+    "onDebug"
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
@@ -180,7 +180,6 @@
           "scope": "resource"
         },
         "deviceSimulatorExpress.debuggerServerPort": {
-
           "type": "number",
           "default": 5577,
           "description": "%deviceSimulatorExpressExtension.configuration.properties.debuggerPort%",
@@ -323,12 +322,13 @@
     "webpack-cli": "^3.0.8"
   },
   "dependencies": {
+    "@material-ui/core": "^4.8.3",
     "@types/open": "^6.1.0",
     "@types/socket.io": "^2.1.2",
     "compare-versions": "^3.5.1",
     "eventemitter2": "^5.0.1",
-    "open": "^6.4.0",
     "glob": "^7.1.4",
+    "open": "^6.4.0",
     "os": "^0.1.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
