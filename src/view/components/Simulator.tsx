@@ -11,7 +11,9 @@ import { CONSTANTS } from "../constants";
 import PlayLogo from "../svgs/play_svg";
 import StopLogo from "../svgs/stop_svg";
 import RefreshLogo from "../svgs/refresh_svg";
+import { AppBar, Tabs, Tab } from '@material-ui/core'
 import MicrobitSimulation from "./devices/microbitSimulation"
+
 
 import "../styles/Simulator.css";
 
@@ -32,7 +34,7 @@ interface IState {
   selected_file: string;
   cpx: ICpxState;
   play_button: boolean;
-  currentToolId:number
+  currentToolId: number
 }
 interface IMyProps {
   children?: any;
@@ -65,7 +67,7 @@ interface vscode {
 }
 
 declare const vscode: vscode;
-const deviceOptions =['option1','option2']
+const deviceOptions = ['option1', 'option2']
 const sendMessage = (type: string, state: any) => {
   vscode.postMessage({ command: type, text: state });
 };
@@ -79,7 +81,7 @@ class Simulator extends React.Component<any, IState> {
       play_button: false,
       running_file: "",
       selected_file: "",
-      currentToolId:0,
+      currentToolId: 0,
     };
 
 
@@ -145,20 +147,24 @@ class Simulator extends React.Component<any, IState> {
     // Make sure to remove the DOM listener when the component is unmounted.
     window.removeEventListener("message", this.handleMessage);
   }
+ 
 
   render() {
+    const handleChange=(event:Object,newValue:number)=>{
+      this.setState({...this.state,currentToolId:newValue})
+      
+    }
     const image = this.state.play_button ? StopLogo : PlayLogo;
     return (
       <div className="simulator">
         <div className="file-selector">
-          <Dropdown
-            label={"file-dropdown"}
-            styleLabel={"dropdown"}
-            lastChosen={this.state.running_file}
-            width={300}
-            textOptions={deviceOptions}
-            onBlur={this.onSelectBlur}
-          />
+          <AppBar>
+            <Tabs value={this.state.currentToolId} onChange={handleChange}>
+              <Tab label="CPX"/>
+              <Tab label="Microbit"/>
+            </Tabs>
+          </AppBar>
+
           <Dropdown
             label={"file-dropdown"}
             styleLabel={"dropdown"}
@@ -168,23 +174,24 @@ class Simulator extends React.Component<any, IState> {
             onBlur={this.onSelectBlur}
           />
         </div>
-        <Dot/>
+
+
         <div className="cpx-container">
-        {this.state.currentToolId?
-                  <Cpx
-                  pixels={this.state.cpx.pixels}
-                  brightness={this.state.cpx.brightness}
-                  red_led={this.state.cpx.red_led}
-                  switch={this.state.cpx.switch}
-                  on={this.state.play_button}
-                  onKeyEvent={this.onKeyEvent}
-                  onMouseUp={this.onMouseUp}
-                  onMouseDown={this.onMouseDown}
-                  onMouseLeave={this.onMouseLeave}
-                />
-        :
-        <MicrobitSimulation/>
-        }
+          {!this.state.currentToolId ?
+            <Cpx
+              pixels={this.state.cpx.pixels}
+              brightness={this.state.cpx.brightness}
+              red_led={this.state.cpx.red_led}
+              switch={this.state.cpx.switch}
+              on={this.state.play_button}
+              onKeyEvent={this.onKeyEvent}
+              onMouseUp={this.onMouseUp}
+              onMouseDown={this.onMouseDown}
+              onMouseLeave={this.onMouseLeave}
+            />
+            :
+            <MicrobitSimulation />
+          }
 
         </div>
         <div className="buttons">
@@ -204,14 +211,7 @@ class Simulator extends React.Component<any, IState> {
             label="refresh"
             width={CONSTANTS.SIMULATOR_BUTTON_WIDTH}
           />
-                   <Button
-            onClick={()=>{if(this.state.currentToolId){this.setState({currentToolId:0})}else{this.setState({currentToolId:1})}}}
-            focusable={true}
-            image={RefreshLogo}
-            styleLabel="refresh"
-            label="change"
-            width={CONSTANTS.SIMULATOR_BUTTON_WIDTH}
-          />
+
         </div>
       </div>
     );
