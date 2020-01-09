@@ -6,6 +6,7 @@ import { BUTTON_NEUTRAL, BUTTON_PRESSED } from "./cpx/Cpx_svg_style";
 import Cpx, { updateSwitch, updatePinTouch } from "./cpx/Cpx";
 import Button from "./Button";
 import Dropdown from "./Dropdown";
+import Dot from "./Dot";
 import { CONSTANTS } from "../constants";
 import PlayLogo from "../svgs/play_svg";
 import StopLogo from "../svgs/stop_svg";
@@ -79,6 +80,8 @@ class Simulator extends React.Component<any, IState> {
       selected_file: "",
       currentToolId:0,
     };
+
+
 
     this.handleClick = this.handleClick.bind(this);
     this.onKeyEvent = this.onKeyEvent.bind(this);
@@ -164,7 +167,7 @@ class Simulator extends React.Component<any, IState> {
             onBlur={this.onSelectBlur}
           />
         </div>
-     
+        <Dot/>
         <div className="cpx-container">
         {this.state.currentToolId?
                   <Cpx
