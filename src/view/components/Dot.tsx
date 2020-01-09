@@ -20,7 +20,7 @@ class Dot extends React.Component<any, any, any> {
       
       return (
         <div className="dot"
-        style={{backgroundColor:this.bgColor,boxShadow:this.boxShadow}}
+        // style={{backgroundColor:this.bgColor,boxShadow:this.boxShadow}}
         ></div>
         
 			);

@@ -204,7 +204,7 @@ class Simulator extends React.Component<any, IState> {
               onMouseLeave={this.onMouseLeave}
             />
             :
-            <MicrobitSimulation ledState={this.state.microbitState} testStates={this.clickMicrobitButton()}/>
+            <MicrobitSimulation ledState={this.state.microbitState} testStates={this.clickMicrobitButton}/>
           }
 
         </div>
