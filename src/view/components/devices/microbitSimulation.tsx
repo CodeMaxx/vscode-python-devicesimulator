@@ -1,7 +1,9 @@
 import * as React from "react";
 import { Fragment, Component } from "react"
-
-class MicrobitSimulation extends Component{
+interface IProps{
+    ledState: boolean[][]
+}
+class MicrobitSimulation extends Component<IProps>{
     render(){
         return(
         <div>

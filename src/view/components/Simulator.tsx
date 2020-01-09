@@ -33,7 +33,8 @@ interface IState {
   selected_file: string;
   cpx: ICpxState;
   play_button: boolean;
-  currentToolId: number
+  currentToolId: number;
+  microbitState:boolean[][]
 }
 interface IMyProps {
   children?: any;
@@ -81,6 +82,12 @@ class Simulator extends React.Component<any, IState> {
       running_file: "",
       selected_file: "",
       currentToolId: 0,
+      microbitState:[[false,false, false, false, false],
+      [false,false,false,false,false],
+    [false,false,false,false,false],
+    [false,false,false,false,false],
+    [false,false,false,false,false]
+    ]
     };
 
     this.handleClick = this.handleClick.bind(this);
@@ -94,8 +101,12 @@ class Simulator extends React.Component<any, IState> {
   }
 
   handleMessage = (event: any): void => {
+
     const message = event.data; // The JSON data our extension sent
     switch (message.command) {
+      case "set-state-mb":
+
+        break;
       case "reset-state":
         console.log("Clearing the state");
         this.setState({
@@ -132,7 +143,9 @@ class Simulator extends React.Component<any, IState> {
         console.log("Invalid message received from the extension.");
         this.setState({ ...this.state, cpx: DEFAULT_CPX_STATE });
         break;
+        
     }
+ 
   };
 
   componentDidMount() {
@@ -186,7 +199,7 @@ class Simulator extends React.Component<any, IState> {
               onMouseLeave={this.onMouseLeave}
             />
             :
-            <MicrobitSimulation />
+            <MicrobitSimulation ledState={this.state.microbitState}/>
           }
 
         </div>
