@@ -575,18 +575,15 @@ export async function activate(context: vscode.ExtensionContext) {
         await serialMonitor.selectDevice();
       }
   
-      utils.logToOutputChannel(outChannel, "Device is : " + serialMonitor.currentDevice + "\n", true);
+      utils.logToOutputChannel(outChannel, "[INFO] Device is : " + serialMonitor.currentDevice + "\n", true);
+      utils.logToOutputChannel(outChannel, "[INFO] Compiling code to hex \n", true);
+      utils.logToOutputChannel(outChannel, "[INFO] Uploading code to device \n", true);
+
       const deviceProcess = cp.spawn(pythonExecutableName, [
-<<<<<<< HEAD
-        utils.getPathToScript(context, "out", "microbit.py"),
-        currentFileAbsPath
-=======
         utils.getPathToScript(context, "out", "device.py"),
         currentFileAbsPath,
         serialMonitor.currentDevice
->>>>>>> 7a9acf7b0d53c199be75ba1d6b905cd1cf3faef5
       ]);
-
       let dataFromTheProcess = "";
 
       // Data received from Python process
@@ -596,6 +593,7 @@ export async function activate(context: vscode.ExtensionContext) {
         let messageToWebview;
         try {
           messageToWebview = JSON.parse(dataFromTheProcess);
+          console.log(`messageToWebView = ${messageToWebview}`);
           // Check the JSON is a state
           switch (messageToWebview.type) {
             case "complete":
@@ -606,6 +604,7 @@ export async function activate(context: vscode.ExtensionContext) {
                 outChannel,
                 CONSTANTS.INFO.DEPLOY_SUCCESS
               );
+              console.log("Deploy success\n\n");
               break;
 
             case "no-device":
@@ -637,6 +636,7 @@ export async function activate(context: vscode.ExtensionContext) {
               break;
           }
         } catch (err) {
+          console.error(err);
           console.log(
             `Non-JSON output from the process :  ${dataFromTheProcess}`
           );
