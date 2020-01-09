@@ -6,6 +6,7 @@ import { BUTTON_NEUTRAL, BUTTON_PRESSED } from "./cpx/Cpx_svg_style";
 import Cpx, { updateSwitch, updatePinTouch } from "./cpx/Cpx";
 import Button from "./Button";
 import Dropdown from "./Dropdown";
+// import Dot from "./Dot";
 import { CONSTANTS } from "../constants";
 import PlayLogo from "../svgs/play_svg";
 import StopLogo from "../svgs/stop_svg";
@@ -67,7 +68,7 @@ interface vscode {
 }
 
 declare const vscode: vscode;
-const deviceOptions = ['option1', 'option2']
+// const deviceOptions = ['option1', 'option2']
 const sendMessage = (type: string, state: any) => {
   vscode.postMessage({ command: type, text: state });
 };
@@ -90,6 +91,8 @@ class Simulator extends React.Component<any, IState> {
     ]
     };
 
+
+
     this.handleClick = this.handleClick.bind(this);
     this.onKeyEvent = this.onKeyEvent.bind(this);
     this.onMouseDown = this.onMouseDown.bind(this);
@@ -105,7 +108,8 @@ class Simulator extends React.Component<any, IState> {
     const message = event.data; // The JSON data our extension sent
     switch (message.command) {
       case "set-state-mb":
-
+        this.setState({...this.state,
+           microbitState:message.state.activePythonEditors })
         break;
       case "reset-state":
         console.log("Clearing the state");
@@ -185,6 +189,7 @@ class Simulator extends React.Component<any, IState> {
           />
         </div>
 
+
         <div className="cpx-container">
           {!this.state.currentToolId ?
             <Cpx
@@ -199,7 +204,7 @@ class Simulator extends React.Component<any, IState> {
               onMouseLeave={this.onMouseLeave}
             />
             :
-            <MicrobitSimulation ledState={this.state.microbitState}/>
+            <MicrobitSimulation ledState={this.state.microbitState} />
           }
 
         </div>
