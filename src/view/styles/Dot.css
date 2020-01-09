@@ -1,8 +1,10 @@
 .dot{
-    width: 50px;
-    height: 20px;
+    width: 15px;
+    height: 25px;
+    border-width:4px 0px;
+    border-color: #888;
+    border-style:solid;
     /* border-radius:100%; */
-    margin: 10px;
-    transition: width 200ms;
+    margin: 10px 15px;
     display:inline-block;
 }

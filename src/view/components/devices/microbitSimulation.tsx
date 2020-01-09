@@ -79,9 +79,79 @@ class MicrobitSimulation extends Component<IProps, any, any>{
                     on={this.props.ledState[0][4]}
                 />
             </div>
+
+            <div>
+                <Dot 
+                    on={this.props.ledState[1][0]}
+                />
+                <Dot 
+                    on={this.props.ledState[1][1]}
+                />
+                <Dot 
+                    on={this.props.ledState[1][2]}
+                />
+                <Dot 
+                    on={this.props.ledState[1][3]}
+                />
+                <Dot 
+                    on={this.props.ledState[1][4]}
+                />
+            </div>
+            <div>
+                <Dot 
+                    on={this.props.ledState[2][0]}
+                />
+                <Dot 
+                    on={this.props.ledState[2][1]}
+                />
+                <Dot 
+                    on={this.props.ledState[2][2]}
+                />
+                <Dot 
+                    on={this.props.ledState[2][3]}
+                />
+                <Dot 
+                    on={this.props.ledState[2][4]}
+                />
+            </div>
+            
+            <div>
+                <Dot 
+                    on={this.props.ledState[3][0]}
+                />
+                <Dot 
+                    on={this.props.ledState[3][1]}
+                />
+                <Dot 
+                    on={this.props.ledState[3][2]}
+                />
+                <Dot 
+                    on={this.props.ledState[3][3]}
+                />
+                <Dot 
+                    on={this.props.ledState[3][4]}
+                />
+            </div>
+            <div>
+                <Dot 
+                    on={this.props.ledState[4][0]}
+                />
+                <Dot 
+                    on={this.props.ledState[4][1]}
+                />
+                <Dot 
+                    on={this.props.ledState[4][2]}
+                />
+                <Dot 
+                    on={this.props.ledState[4][3]}
+                />
+                <Dot 
+                    on={this.props.ledState[4][4]}
+                />
+            </div>
             <button onClick={()=>{this.props.testStates()}} 
-             /> 
-            MicrobitSimulationComponent
+             >MicrobitSimulationComponent toggle</button> 
+            
         </div>)
     }
 }

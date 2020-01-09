@@ -230,13 +230,25 @@ class Simulator extends React.Component<any, IState> {
       </div>
     );
   }
-  clickMicrobitButton(){
-    this.setState({...this.state,microbitState:[[true,true, true, true, true],
-      [false,false,false,false,false],
-    [false,false,false,false,false],
-    [false,false,false,false,false],
-    [false,false,false,false,false]
+  public clickMicrobitButton = (event:any): void => {
+    if (this.state.microbitState[0][1]) {
+      
+    this.setState({
+      microbitState:[ [false,false, false, false, false],
+                      [false,false,false,false,false],
+                      [false,false,false,false,false],
+                      [false,false,false,false,false],
+                      [false,false,false,false,false]
     ]})
+    } else {
+      this.setState({
+        microbitState:[ [false,true, false, true, false],
+                        [true,true,true,true,true],
+                        [true,true,true,true,true],
+                        [false,true,true,true,false],
+                        [false,false,true,false,false]
+      ]})
+    }
   }
 
   protected togglePlayClick() {
