@@ -19,27 +19,27 @@ import "../styles/Dot.css";
 class Dot extends React.Component<any, any, any> {
     // wrapperRef : any
     // private wrapperRef = React.createRef()
+    readonly bgColor_OFF: string = '#cfcfcf'
+    readonly bgColor_ON: string = '#ff7575'
+    readonly boxShadow_OFF: string = '0 0 0px #888888'
+    readonly boxShadow_ON: string = '0 0 10px #888888'
+
+    bgColor: string = this.bgColor_OFF
+    boxShadow: string = this.boxShadow_OFF
+
+
     constructor(props: any) {
       super(props);
-      // this.state = {
-      //   bgColor: '#111111',
-      //   boxShadow: '0 0 0px #888888',
-      // };
-
+      this.bgColor = this.props.on ? this.bgColor_ON :this.bgColor_OFF;
+      this.boxShadow = this.props.on ? this.boxShadow_ON :this.boxShadow_OFF;
     }
-  
-    // public handleClick = (event: any): void => {
-    //   this.setState({
-    //     bgColor: (this.state.bgColor == '#111111' ? '#ffffff' : '#111111'),
-    //     boxShadow: (this.state.boxShadow == '0 0 0px #888888' ? '0 0 10px #888888' : '0 0 0px #888888')
-    //   })
-    // }
+
 
     public render() {
       
       return (
         <div className="dot"
-        style={{backgroundColor:this.props.bgColor,boxShadow:this.props.boxShadow}}
+        style={{backgroundColor:this.bgColor,boxShadow:this.boxShadow}}
         ></div>
         
 			);
