@@ -6,7 +6,7 @@ import { BUTTON_NEUTRAL, BUTTON_PRESSED } from "./cpx/Cpx_svg_style";
 import Cpx, { updateSwitch, updatePinTouch } from "./cpx/Cpx";
 import Button from "./Button";
 import Dropdown from "./Dropdown";
-import Dot from "./Dot";
+// import Dot from "./Dot";
 import { CONSTANTS } from "../constants";
 import PlayLogo from "../svgs/play_svg";
 import StopLogo from "../svgs/stop_svg";
@@ -67,7 +67,7 @@ interface vscode {
 }
 
 declare const vscode: vscode;
-const deviceOptions = ['option1', 'option2']
+// const deviceOptions = ['option1', 'option2']
 const sendMessage = (type: string, state: any) => {
   vscode.postMessage({ command: type, text: state });
 };
