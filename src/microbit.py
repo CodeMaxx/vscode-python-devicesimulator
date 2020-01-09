@@ -67,17 +67,14 @@ class Image:
 class Microbit:
     def __init__(self):
         # State in the Python process
-        self.__state = {
-            'pixels': [
+        self.__state = [
                 [False, False, False, False, False],
                 [False, False, False, False, False],
                 [False, False, False, False, False],
                 [False, False, False, False, False],
                 [False, False, False, False, False]
-            ],
-            'button_a': False,
-            'button_b': False,
-        }
+            ]
+
         self.__debug_mode = False
         self.__abs_path_to_code_file = ''
 
@@ -93,9 +90,7 @@ class Microbit:
         utils.show(self.__state, self.__debug_mode, True)
     
     def show(self, image):
-        self.__state = {
-            'pixels': image
-        }
+        self.__state = image
         self.__show()
 
 display = Microbit()

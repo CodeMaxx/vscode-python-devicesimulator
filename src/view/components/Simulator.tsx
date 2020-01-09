@@ -84,11 +84,11 @@ class Simulator extends React.Component<any, IState> {
       selected_file: "",
       currentToolId: 0,
       microbitState:[[false,false, false, false, false],
-      [false,false,false,false,false],
-    [false,false,false,false,false],
-    [false,false,false,false,false],
-    [false,false,false,false,false]
-    ]
+                     [false,false,false,false,false],
+                     [false,false,false,false,false],
+                     [false,false,false,false,false],
+                     [false,false,false,false,false]
+                    ]
     };
 
 
@@ -108,8 +108,7 @@ class Simulator extends React.Component<any, IState> {
     const message = event.data; // The JSON data our extension sent
     switch (message.command) {
       case "set-state-mb":
-        this.setState({...this.state,
-           microbitState:message.state.activePythonEditors })
+        this.setState({...this.state, microbitState: message.state })
         break;
       case "reset-state":
         console.log("Clearing the state");
