@@ -1,7 +1,7 @@
 from microbit import *
 
 while True:
-    display.scroll('GARAGE')
+    display.scroll('VANDY WAS HERE')
     display.show(Image.HAPPY)
     sleep(500)
     display.show(Image.SAD)
